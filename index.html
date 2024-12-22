@@ -73,21 +73,31 @@
     <h1>Thenux-YT-DL</h1>
     <div class="container">
         <input type="text" id="youtubeUrl" placeholder="Enter YouTube Video URL">
-        <button onclick="downloadMp3()">Download MP3</button>
+        <button onclick="fetchDetails()">Fetch Details</button>
         <div class="result" id="result"></div>
     </div>
 
     <script>
-        async function downloadMp3() {
+        async function fetchDetails() {
             const url = document.getElementById('youtubeUrl').value;
             const resultDiv = document.getElementById('result');
             resultDiv.innerHTML = "Loading...";
 
             try {
-                const response = await fetch(`http://localhost:3000/download?url=${encodeURIComponent(url)}`);
+                const response = await fetch(`http://localhost:3000/api/details?url=${encodeURIComponent(url)}`);
+                const data = await response.json();
 
-                if (response.ok) {
-                    resultDiv.innerHTML = "<p>Download started successfully.</p>";
+                if (data.status) {
+                    const details = data.result;
+                    resultDiv.innerHTML = `
+                        <h3>${details.title}</h3>
+                        <img src="${details.thumbnail}" alt="Thumbnail" class="thumbnail">
+                        <p>Quality: ${details.quality_t}</p>
+                        <p>Size: ${details.size}</p>
+                        <a href="http://localhost:3000/api/download?url=${encodeURIComponent(details.url)}" download>
+                            <button>Download MP3</button>
+                        </a>
+                    `;
                 } else {
                     resultDiv.innerHTML = "<p>Failed to fetch details. Please check the URL and try again.</p>";
                 }
@@ -99,5 +109,6 @@
     </script>
 </body>
 </html>
+
 
 
