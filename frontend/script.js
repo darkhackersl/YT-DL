@@ -4,7 +4,7 @@ async function fetchDetails() {
     resultDiv.innerHTML = "Loading...";
 
     try {
-        const response = await fetch(`https://<your-backend-url>/api/details?url=${encodeURIComponent(url)}`);
+        const response = await fetch(`https://yt-dl-inky.vercel.app//api/details?url=${encodeURIComponent(url)}`);
         const data = await response.json();
 
         if (data.error) {
