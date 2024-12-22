@@ -84,19 +84,10 @@
             resultDiv.innerHTML = "Loading...";
 
             try {
-                const response = await fetch(`https://www.dark-yasiya-api.site/download/ytmp3?url=${encodeURIComponent(url)}`);
-                const data = await response.json();
+                const response = await fetch(`http://localhost:3000/download?url=${encodeURIComponent(url)}`);
 
-                if (data.status) {
-                    resultDiv.innerHTML = `
-                        <h3>${data.result.title}</h3>
-                        <img src="${data.result.thumbnail}" alt="Thumbnail" class="thumbnail">
-                        <p>Size: ${data.result.size}</p>
-                        <p>Quality: ${data.result.quality_t}</p>
-                        <a href="${data.result.dl_link}" download class="download">
-                            <button>Download Now</button>
-                        </a>
-                    `;
+                if (response.ok) {
+                    resultDiv.innerHTML = "<p>Download started successfully.</p>";
                 } else {
                     resultDiv.innerHTML = "<p>Failed to fetch details. Please check the URL and try again.</p>";
                 }
@@ -108,4 +99,5 @@
     </script>
 </body>
 </html>
+
 
